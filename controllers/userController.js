@@ -7,6 +7,46 @@ const jwt = require('jsonwebtoken')
 const film = mongoose.model("Filminfo");
 
 //Register a user
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     UserInfo:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         username:
+ *           type: string
+ *         email:
+ *           type: string
+ *         pw:
+ *           type: string
+ *         confipw:
+ *           type: string
+ */
+
+/**
+ * @openapi
+ * /register:
+ *   post:
+ *     summary: Register a new user
+ *     tags:
+ *       - User
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserInfo'
+ *     responses:
+ *       200:
+ *         description: User registered successfully
+ *       400:
+ *         description: Bad request or validation error
+ *       409:
+ *         description: Username or email is already used
+ */
 exports.register = async(req,res)=>{
     const {name,username,email,pw,confipw} = req.body; //body request for the parameters of register 
     const encryptedPassword = await bcrypt.hash(pw,10);//encrypt the password
@@ -41,6 +81,26 @@ exports.register = async(req,res)=>{
 
 
 //Login a user
+/**
+ * @openapi
+ * /loginuser:
+ *   post:
+ *     summary: Login a user
+ *     tags:
+ *       - User
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserInfo'
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *       400:
+ *         description: User not found or invalid password
+ */
+
 exports.loginuser = async(req,res)=>{
     const {email,pw} = req.body; //body request for the parameters of login
     const user = await User.findOne({email});//see if the email exists
@@ -99,6 +159,29 @@ const sendResetPasswordMail = async(email,link)=>{
 }
 
 //Forgot Password
+/**
+ * @openapi
+ * /forgotpassword:
+ *   post:
+ *     summary: Send a reset password email
+ *     tags:
+ *       - User
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Reset password email sent successfully
+ *       400:
+ *         description: User not found
+ */
+
 exports.forgotpassword = async(req,res,next)=>{
     const {email} = req.body; //body request for the parameters of forgotpassword
     try {
@@ -113,7 +196,6 @@ exports.forgotpassword = async(req,res,next)=>{
             //user wants to recover his password, the id and email of that user are the data and the secret expires in 5 minutes .
             const link = `http://localhost:5000/resetpassword/${userData._id}/${token}`;
             sendResetPasswordMail(userData.email,link);
-            console.log(link);    
             res.send("Now you can verify your email");   
         }
     }catch(error){
@@ -125,6 +207,65 @@ exports.forgotpassword = async(req,res,next)=>{
 //HTTP GET requests include all required data in the URL
 
 //Forgot Password, token and id
+/**
+ * @openapi
+ * /resetpassword/{id}/{token}:
+ *   get:
+ *     summary: Verify reset password token
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: string
+ *       - name: token
+ *         in: path
+ *         required: true
+ *         description: Reset password token
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Token verified successfully
+ *       400:
+ *         description: Invalid token or user not found
+ *   post:
+ *     summary: Reset user password
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: string
+ *       - name: token
+ *         in: path
+ *         required: true
+ *         description: Reset password token
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               pw:
+ *                 type: string
+ *               confipw:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ *       400:
+ *         description: Passwords do not match or invalid token
+ */
 exports.resetpasswordget = async(req,res)=>{
     const {id,token} = req.params;//request for the parameters of token and id before created
     console.log(req.params);
@@ -181,6 +322,28 @@ exports.resetpasswordpost = async(req,res)=>{
 };
 
 //Forgot Password
+/**
+ * @openapi
+ * /filmsearch:
+ *   post:
+ *     summary: Search for a film
+ *     tags:
+ *       - User
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Film found
+ *       404:
+ *         description: Film not found
+ */
 exports.filmsearch = async(req,res)=>{
     const {title} = req.body; 
     try {

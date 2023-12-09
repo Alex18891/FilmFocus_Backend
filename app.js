@@ -1,7 +1,9 @@
+const swaggerDocs = require("./utils/swagger.js");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 app.use(express.json());
+swaggerDocs(app, 5000);
 const cors = require("cors");
 app.use(cors());
 const mongoUrl = "mongodb+srv://mongo:asr232000@cluster0.uahgiie.mongodb.net/?retryWrites=true&w=majority";
