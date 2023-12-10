@@ -2,7 +2,30 @@ const mongoose = require("mongoose");
 const User = mongoose.model("UserInfo");
 const Review = mongoose.model("ReviewsInfo");
 
+
 //Create Review
+
+/**
+ * @openapi
+ * /createreview:
+ *   post:
+ *     summary: Create a review for a user
+ *     tags:
+ *       - Review
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ReviewInfo'
+ *     responses:
+ *       200:
+ *         description: Review created successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal Server Error
+ */
 exports.createReview = async(req,res)=>{
     const {userId,rate,title,text} = req.body; //body request for the parameters of register 
     try{
@@ -29,6 +52,29 @@ exports.createReview = async(req,res)=>{
 };
 
 //Get Reviews by user
+
+/**
+ * @openapi
+ * /getreview/{userid}:
+ *   get:
+ *     summary: Get reviews for a user
+ *     tags:
+ *       - Review
+ *     parameters:
+ *       - in: path
+ *         name: userid
+ *         required: true
+ *         description: ID of the user to get reviews for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Reviews retrieved successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal Server Error
+ */
 exports.getReview = async(req,res)=>{
     const {userid} = req.params;
     try{
@@ -39,7 +85,8 @@ exports.getReview = async(req,res)=>{
         }
         else //if the other conditions are false, this is one is setted
         {
-            const reviews = await Review.find({ _id: userid });
+            const reviews = await Review.findOne({userid});
+            return res.send(reviews)
         }
 
     }catch(error){

@@ -24,7 +24,7 @@ const options = {
       },
     ],
   },
-  apis: [path.join(__dirname, "..", "controllers", "userController.js")],
+  apis: [path.join(__dirname, "..", "controllers", "userController.js"), path.join(__dirname, "..", "controllers", "reviewController.js")],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
