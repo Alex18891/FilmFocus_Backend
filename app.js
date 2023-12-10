@@ -16,8 +16,10 @@ mongoose.connect(mongoUrl,{
 })
 .catch(e=>console.log(e));
 require("./models/userDetails");
+require("./models/Reviews");
 require("./models/filmDetails");
 app.use("/",require('./routes/user.Routes'));
+app.use("/",require('./routes/review.Routes'));
 
 app.listen(5000,()=>{
     console.log("Server started");
