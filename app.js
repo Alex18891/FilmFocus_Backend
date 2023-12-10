@@ -6,7 +6,7 @@ app.use(express.json());
 swaggerDocs(app, 5000);
 const cors = require("cors");
 app.use(cors());
-const mongoUrl = "mongodb+srv://mongo:asr232000@cluster0.uahgiie.mongodb.net/?retryWrites=true&w=majority";
+const mongoUrl = "mongodb+srv://mongo:ais1889117796@cluster0.uahgiie.mongodb.net/?retryWrites=true&w=majority";
 app.set("view engine","ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended:false}));
