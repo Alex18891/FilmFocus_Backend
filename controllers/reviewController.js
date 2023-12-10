@@ -27,7 +27,7 @@ const Review = mongoose.model("ReviewsInfo");
  *         description: Internal Server Error
  */
 exports.createReview = async(req,res)=>{
-    const {userId,rate,title,text} = req.body; //body request for the parameters of register 
+    const {userId,filmId,rate,title,text} = req.body; //body request for the parameters of register 
     try{
         const user = await User.findOne({_id: userId})//see if the email has already created or used
         if(!user)
@@ -39,6 +39,7 @@ exports.createReview = async(req,res)=>{
             res.send("");
             await Review.create({
             userId,
+            filmId,
             rate,
             title,
             text
@@ -87,6 +88,47 @@ exports.getReview = async(req,res)=>{
         {
             const reviews = await Review.findOne({userid});
             return res.send(reviews)
+        }
+
+    }catch(error){
+        console.log(error)
+        res.send("Error");
+    }
+};
+
+/**
+ * @openapi
+ * /getreviewbyfilm/{filmId}:
+ *   get:
+ *     summary: Get review by film ID
+ *     tags:
+ *       - Review
+ *     parameters:
+ *       - in: path
+ *         name: filmId
+ *         required: true
+ *         description: ID of the film to get the review for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Review for the film retrieved successfully
+ *       404:
+ *         description: Film not found
+ *       500:
+ *         description: Internal Server Error
+ */
+exports.getReviewbyFilm = async(req,res)=>{
+    const {filmId} = req.params;
+    try{
+        const film = await Review.findOne({filmId})//see if the email has already created or used
+        if(!film)
+        {
+          return res.send("Film don't exist");
+        }
+        else //if the other conditions are false, this is one is setted
+        {
+            return res.send(film)
         }
 
     }catch(error){
