@@ -6,4 +6,6 @@ router.route("/createreview")
         .post(reviewController.createReview);
 router.route("/getreview/:userid")
         .get(reviewController.getReview);
+router.route("/getallreview")
+        .get(reviewController.getallReview);
 module.exports=router;  

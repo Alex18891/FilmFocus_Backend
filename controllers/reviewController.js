@@ -94,3 +94,26 @@ exports.getReview = async(req,res)=>{
         res.send("Error");
     }
 };
+
+/**
+ * @openapi
+ * /getallreviews:
+ *   get:
+ *     summary: Get all reviews
+ *     tags:
+ *       - Review
+ *     responses:
+ *       200:
+ *         description: Reviews retrieved successfully
+ *       500:
+ *         description: Internal Server Error
+ */
+exports.getallReview = async(req,res)=>{
+    try{
+        const reviews = await Review.find();
+        return res.send(reviews)
+    }catch(error){
+        console.log(error)
+        res.send("Error");
+    }
+};
