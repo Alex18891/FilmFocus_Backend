@@ -1,6 +1,7 @@
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const { version } = require(".././package.json");
+const path = require("path");
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -23,7 +24,7 @@ const options = {
       },
     ],
   },
-  apis: ["C:/Users/alexa/Desktop/Trabalhos para o ano/Aplicação de filmes/Autenticação/controllers/userController.js"],
+  apis: [path.join(__dirname, "..", "controllers", "userController.js")],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
@@ -38,5 +39,4 @@ function swaggerDocs(app, port) {
     res.send(swaggerSpec);
   });
 }
-console.log(JSON.stringify(swaggerSpec, null, 2));
 module.exports = swaggerDocs;
