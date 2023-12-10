@@ -8,8 +8,6 @@ router.route("/loginuser")
         .post(utilizadorController.loginuser);
 router.route("/register")
         .post(utilizadorController.register);
-router.route("/filmsearch")
-        .post(utilizadorController.filmsearch);
 router.route("/resetpassword/:id/:token")
         .get(utilizadorController.resetpasswordget);
 router.route("/resetpassword/:id/:token")

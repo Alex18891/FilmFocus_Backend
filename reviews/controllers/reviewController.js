@@ -93,7 +93,7 @@ exports.getReview = async(req,res)=>{
         }
         else //if the other conditions are false, this is one is setted
         {
-            const reviews = await Review.findOne({userid});
+            const reviews = await Review.findOne({userId});
             return res.send(reviews)
         }
 

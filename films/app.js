@@ -15,9 +15,9 @@ mongoose.connect(mongoUrl,{
 }).then(()=>{console.log("Conected to database");
 })
 .catch(e=>console.log(e));
-require("./models/userDetails");
-app.use("/",require('./routes/user.Routes'));
+require("./models/filmDetails");
+app.use("/",require('./routes/film.Routes'));
 
-app.listen(5000,()=>{
+app.listen(6000,()=>{
     console.log("Server started");
 });
