@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
-const User = mongoose.model("UserInfo");
 const Review = mongoose.model("ReviewsInfo");
+const axios = require('axios');
 
+async function getuserbyid(userId) {
+    try{
+        const response = await axios.get(`http://localhost:5000/getuserbyId/${userId}`)
+        return response.data
+    }catch(error){
+        throw new Error('Unable to find this user')
+    }
+}
 
 //Create Review
-
 /**
  * @openapi
  * /createreview:
@@ -29,7 +36,7 @@ const Review = mongoose.model("ReviewsInfo");
 exports.createReview = async(req,res)=>{
     const {userId,filmId,rate,title,text} = req.body; //body request for the parameters of register 
     try{
-        const user = await User.findOne({_id: userId})//see if the email has already created or used
+        const user = await getuserbyid(userId)  //see if the email has already created or used
         if(!user)
         {
           return res.send("User don't exist");
@@ -77,9 +84,9 @@ exports.createReview = async(req,res)=>{
  *         description: Internal Server Error
  */
 exports.getReview = async(req,res)=>{
-    const {userid} = req.params;
+    const {userId} = req.params;
     try{
-        const user = await User.findOne({_id: userid})//see if the email has already created or used
+        const user = await getuserbyid(userId)   //see if the email has already created or used
         if(!user)
         {
           return res.send("User don't exist");

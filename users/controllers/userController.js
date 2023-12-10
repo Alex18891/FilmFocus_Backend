@@ -364,3 +364,41 @@ exports.filmsearch = async(req,res)=>{
         console.log(error);
     }       
 };
+
+//Find User
+/**
+ * @openapi
+ * /finduser/{userId}:
+ *   get:
+ *     summary: Find a user by ID
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to find
+ *     responses:
+ *       '200':
+ *         description: User found successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserInfo'
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal Server Error
+ */
+exports.finduser = async(req,res)=>{
+    const { userId }= req.params
+    const user = await User.findById(userId);
+    if(!user){
+        return res.send(null)
+    }
+    else{
+        return res.send(user)
+    }    
+}

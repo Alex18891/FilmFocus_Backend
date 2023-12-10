@@ -14,4 +14,6 @@ router.route("/resetpassword/:id/:token")
         .get(utilizadorController.resetpasswordget);
 router.route("/resetpassword/:id/:token")
         .post(utilizadorController.resetpasswordpost);
+router.route("/getuserbyId/:userId")
+        .get(utilizadorController.finduser)
 module.exports=router;  
