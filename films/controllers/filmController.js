@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const film = mongoose.model("Filminfo");
+const Film = mongoose.model("Filminfo");
 
 
 //Film search
@@ -28,7 +28,7 @@ const film = mongoose.model("Filminfo");
 exports.filmsearch = async(req,res)=>{
     const {title} = req.body; 
     try {
-        const userData = await film.findOne({title});//see if the email is in the mongodatabase
+        const userData = await Film.findOne({title});//see if the email is in the mongodatabase
         if(!userData)
         {
             res.json({title:"Film doesn't exist"});
@@ -44,4 +44,47 @@ exports.filmsearch = async(req,res)=>{
     }catch(error){
         console.log(error);
     }       
+};
+
+
+/**
+ * @openapi
+ * /getreviewbyfilm/{filmId}:
+ *   get:
+ *     summary: Get review by film ID
+ *     tags:
+ *       - Review
+ *     parameters:
+ *       - in: path
+ *         name: filmId
+ *         required: true
+ *         description: ID of the film to get the review for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Review for the film retrieved successfully
+ *       404:
+ *         description: Film not found
+ *       500:
+ *         description: Internal Server Error
+ */
+exports.getReviewbyFilm = async(req,res)=>{
+    const {title} = req.params;
+    try{
+        const film = await Film.findOne({title})//see if the email has already created or used
+        console.log(film)
+        if(!film)
+        {
+          return res.send("Film don't exist");
+        }
+        else //if the other conditions are false, this is one is setted
+        {
+            return res.send(film._id)
+        }
+
+    }catch(error){
+        console.log(error)
+        res.send("Error");
+    }
 };

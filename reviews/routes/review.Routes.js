@@ -8,6 +8,6 @@ router.route("/getreview/:userId")
         .get(reviewController.getReview);
 router.route("/getallreview")
         .get(reviewController.getallReview);
-router.route("/getReviewbyFilm/:filmId")
+router.route("/getReviewbyFilm/:title")
         .get(reviewController.getReviewbyFilm);
 module.exports=router;  

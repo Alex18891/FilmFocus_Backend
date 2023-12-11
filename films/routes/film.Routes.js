@@ -1,7 +1,9 @@
 const router= require('express').Router();
 
-var utilizadorController=require('../controllers/filmController')
+var filmController=require('../controllers/filmController')
 
 router.route("/filmsearch")
-        .post(utilizadorController.filmsearch);
+        .post(filmController.filmsearch);
+router.route("/getReviewbyFilm/:title")
+        .get(filmController.getReviewbyFilm);
 module.exports=router;  

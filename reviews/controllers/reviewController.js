@@ -11,6 +11,15 @@ async function getuserbyid(userId) {
     }
 }
 
+async function getfilmid(title) {
+    try{
+        const response = await axios.get(`http://localhost:6000/getReviewbyFilm/${title}`)
+        return response.data
+    }catch(error){
+        throw new Error('Unable to find this user')
+    }
+}
+
 //Create Review
 /**
  * @openapi
@@ -105,6 +114,29 @@ exports.getReview = async(req,res)=>{
 
 /**
  * @openapi
+ * /getallreviews:
+ *   get:
+ *     summary: Get all reviews
+ *     tags:
+ *       - Review
+ *     responses:
+ *       200:
+ *         description: Reviews retrieved successfully
+ *       500:
+ *         description: Internal Server Error
+ */
+exports.getallReview = async(req,res)=>{
+    try{
+        const reviews = await Review.find();
+        return res.send(reviews)
+    }catch(error){
+        console.log(error)
+        res.send("Error");
+    }
+};
+
+/**
+ * @openapi
  * /getreviewbyfilm/{filmId}:
  *   get:
  *     summary: Get review by film ID
@@ -126,41 +158,19 @@ exports.getReview = async(req,res)=>{
  *         description: Internal Server Error
  */
 exports.getReviewbyFilm = async(req,res)=>{
-    const {filmId} = req.params;
+    const {title} = req.params;
     try{
-        const film = await Review.findOne({filmId})//see if the email has already created or used
+        const film = await getfilmid(title)//see if the email has already created or used
+        console.log(film)
         if(!film)
         {
-          return res.send("Film don't exist");
+          return res.send("Review don't exist");
         }
         else //if the other conditions are false, this is one is setted
         {
             return res.send(film)
         }
 
-    }catch(error){
-        console.log(error)
-        res.send("Error");
-    }
-};
-
-/**
- * @openapi
- * /getallreviews:
- *   get:
- *     summary: Get all reviews
- *     tags:
- *       - Review
- *     responses:
- *       200:
- *         description: Reviews retrieved successfully
- *       500:
- *         description: Internal Server Error
- */
-exports.getallReview = async(req,res)=>{
-    try{
-        const reviews = await Review.find();
-        return res.send(reviews)
     }catch(error){
         console.log(error)
         res.send("Error");
