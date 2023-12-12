@@ -58,7 +58,7 @@ exports.filmsearch = async(req,res)=>{
  *       - in: path
  *         name: filmId
  *         required: true
- *         description: ID of the film to get the review for
+ *         description: Getting filmid through title of the film
  *         schema:
  *           type: string
  *     responses:

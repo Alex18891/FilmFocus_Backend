@@ -334,7 +334,7 @@ exports.resetpasswordpost = async(req,res)=>{
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of the user to find
+ *         description: Getting user by userId
  *     responses:
  *       '200':
  *         description: User found successfully

@@ -81,7 +81,7 @@ exports.createReview = async(req,res)=>{
  *       - in: path
  *         name: userid
  *         required: true
- *         description: ID of the user to get reviews for
+ *         description: Getting reviews by userId
  *         schema:
  *           type: string
  *     responses:
@@ -137,21 +137,27 @@ exports.getallReview = async(req,res)=>{
 
 /**
  * @openapi
- * /getreviewbyfilm/{filmId}:
+ * /getreviewbyfilm/{title}:
  *   get:
- *     summary: Get review by film ID
+ *     summary: Get review by film title
  *     tags:
  *       - Review
  *     parameters:
  *       - in: path
- *         name: filmId
+ *         name: title
  *         required: true
- *         description: ID of the film to get the review for
+ *         description: Getting the reviews through title
  *         schema:
  *           type: string
  *     responses:
  *       200:
  *         description: Review for the film retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 // Define the properties of the review object here
  *       404:
  *         description: Film not found
  *       500:
@@ -160,15 +166,15 @@ exports.getallReview = async(req,res)=>{
 exports.getReviewbyFilm = async(req,res)=>{
     const {title} = req.params;
     try{
-        const film = await getfilmid(title)//see if the email has already created or used
-        console.log(film)
-        if(!film)
+        const filmId = await getfilmid(title)//see if the email has already created or used
+        if(!filmId)
         {
           return res.send("Review don't exist");
         }
         else //if the other conditions are false, this is one is setted
         {
-            return res.send(film)
+            const reviews = await Review.findOne({filmId});
+            return res.send(reviews)
         }
 
     }catch(error){
