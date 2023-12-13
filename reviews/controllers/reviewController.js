@@ -4,7 +4,7 @@ const axios = require('axios');
 
 async function getuserbyid(userId) {
     try{
-        const response = await axios.get(`http://localhost:5000/getuserbyId/${userId}`)
+        const response = await axios.get(`http://0.0.0.0:5000/getuserbyId/${userId}`)
         return response.data
     }catch(error){
         throw new Error('Unable to find this user')
@@ -13,7 +13,7 @@ async function getuserbyid(userId) {
 
 async function getfilmid(title) {
     try{
-        const response = await axios.get(`http://localhost:6000/getReviewbyFilm/${title}`)
+        const response = await axios.get(`http://0.0.0.0:6000/getReviewbyFilm/${title}`)
         return response.data
     }catch(error){
         throw new Error('Unable to find this user')
