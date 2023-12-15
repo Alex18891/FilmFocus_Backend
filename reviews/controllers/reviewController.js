@@ -3,17 +3,17 @@ const Review = mongoose.model("ReviewsInfo");
 const axios = require('axios');
 
 async function getuserbyid(userId) {
-    try{
-        const response = await axios.get(`http://127.0.0.1:5000/getuserbyId/${userId}`)
-        return response.data
-    }catch(error){
-        throw new Error('Unable to find this user')
+    try {
+        const response = await axios.get(`http://users:5000/getuserbyId/${userId}`);
+        return response.data;
+    } catch (error) {
+        throw new Error('Unable to find this user');
     }
 }
 
 async function getfilmid(title) {
     try{
-        const response = await axios.get(`http://127.0.0.1:6000/getReviewbyFilm/${title}`)
+        const response = await axios.get(`http://film:6000/getReviewbyFilm/${title}`)
         return response.data
     }catch(error){
         throw new Error('Unable to find this user')
@@ -67,6 +67,9 @@ exports.createReview = async(req,res)=>{
         res.send("Error");
     }
 };
+
+
+
 
 //Get Reviews by user
 
@@ -182,3 +185,5 @@ exports.getReviewbyFilm = async(req,res)=>{
         res.send("Error");
     }
 };
+
+

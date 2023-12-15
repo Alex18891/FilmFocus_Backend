@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  mongodbusers:
+    image: mongo
+    ports:
+      - 27017:27017
+  users:
+    image: users
+    build: ./users
+    ports:
+      - 5000:5000
+  reviews:
+    image: reviews
+    build: ./reviews
+    ports:
+      - 5500:5500
+  film:
+    image: films
+    build: ./films
+    ports:
+      - 6000:6000
