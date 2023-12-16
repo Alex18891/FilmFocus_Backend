@@ -69,7 +69,7 @@ exports.filmsearch = async(req,res)=>{
  *       500:
  *         description: Internal Server Error
  */
-exports.getReviewbyFilm = async(req,res)=>{
+exports.getidbyFilm = async(req,res)=>{
     const {title} = req.params;
     try{
         const film = await Film.findOne({title})//see if the email has already created or used

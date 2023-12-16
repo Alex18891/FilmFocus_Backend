@@ -4,6 +4,6 @@ var filmController=require('../controllers/filmController')
 
 router.route("/filmsearch")
         .post(filmController.filmsearch);
-router.route("/getReviewbyFilm/:title")
-        .get(filmController.getReviewbyFilm);
+router.route("/getidbyFilm/:title")
+        .get(filmController.getidbyFilm);
 module.exports=router;  
