@@ -2,21 +2,18 @@ version: '3.4'
 
 services:
   mongodbusers:
-    image: mongo
+    image: etff2612/mongo-repo
     ports:
       - 27017:27017
   users:
-    image: users
-    build: ./users
+    image: etff2612/users-repo
     ports:
       - 5000:5000
   reviews:
-    image: reviews
-    build: ./reviews
+    image: etff2612/reviews-repo
     ports:
       - 5500:5500
-  film:
-    image: films
-    build: ./films
+  films:
+    image: etff2612/films-repo
     ports:
       - 6000:6000

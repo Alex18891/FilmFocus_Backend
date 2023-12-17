@@ -4,7 +4,7 @@ const axios = require('axios');
 
 async function getuserbyid(userId) {
     try {
-        const response = await axios.get(`http://users:5000/getuserbyId/${userId}`);
+        const response = await axios.get(`http://etff2612/users-repo:5000/getuserbyId/${userId}`);
         return response.data;
     } catch (error) {
         throw new Error('Unable to find this user');
@@ -12,13 +12,28 @@ async function getuserbyid(userId) {
 }
 
 async function getfilmid(title) {
-    try{
-        const response = await axios.get(`http://film:6000/getReviewbyFilm/${title}`)
-        return response.data
-    }catch(error){
-        throw new Error('Unable to find this user')
+    try {
+        const response = await axios.get(`http://etff2612/films-repo:6000/getidbyFilm/${title}`);
+        return response.data;
+    } catch (error) {
+      if (error.response) {
+        // O servidor respondeu com um status de erro (por exemplo, 4xx, 5xx)
+        console.error('Error status:', error.response.status);
+        console.error('Error data:', error.response.data);
+        console.error('Error headers:', error.response.headers);
+      } else if (error.request) {
+        // A requisição foi feita, mas não houve resposta do servidor
+        console.error('No response received:', error.request);
+      } else {
+        // Um erro ocorreu durante a configuração da requisição
+        console.error('Error setting up the request:', error.message);
+      }
+  
+      // Lança um novo erro com a mensagem personalizada
+      throw new Error('Unable to find this user');
     }
-}
+  }
+  
 
 //Create Review
 /**
